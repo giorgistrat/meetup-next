@@ -1,10 +1,16 @@
 import { MongoClient } from "mongodb";
 
+import Head from "next/head";
+
 import MeetupList from "../components/meetups/MeetupList";
 
 function HomePage({ meetups }) {
   return (
     <>
+      <Head>
+        <title>All meetups</title>
+        <meta name="description" content="All great meetups for your memories" />
+      </Head>
       <MeetupList meetups={meetups} />
     </>
   );

@@ -1,9 +1,11 @@
+import Head from 'next/head'
+
 import { useRouter } from "next/router";
 
 import NewMeetupForm from "../../components/meetups/NewMeetupForm";
 
 function NewMeetup() {
-  const router =  useRouter()
+  const router = useRouter();
 
   const meetupFormHandler = async (enteredMeetupData) => {
     const response = await fetch("/api/new-meetup", {
@@ -16,11 +18,22 @@ function NewMeetup() {
 
     const data = await response.json();
     console.log(data);
-    
-    router.replace('/')
+
+    router.replace("/");
   };
 
-  return <NewMeetupForm onAddMeetup={meetupFormHandler} />;
+  return (
+    <>
+      <Head>
+        <title>Add new Meetup point</title>
+        <meta
+          name="description"
+          content="Add your own meetup!"
+        />
+      </Head>
+      <NewMeetupForm onAddMeetup={meetupFormHandler} />;
+    </>
+  );
 }
 
 export default NewMeetup;
