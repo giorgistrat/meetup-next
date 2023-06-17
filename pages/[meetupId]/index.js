@@ -16,6 +16,24 @@ function MeetupDetails({ meetupData }) {
   return <MeetupDetail meetupDetails={meetupData} />;
 }
 
+export async function getStaticPaths() {
+  return {
+    fallback: false,
+    paths: [
+      {
+        params: {
+          meetupId: "m1",
+        },
+      },
+      {
+        params: {
+          meetupId: "m2",
+        },
+      },
+    ],
+  };
+}
+
 export async function getStaticProps() {
   // Let's say we are fetching data from DB
   return {
