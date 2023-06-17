@@ -1,31 +1,6 @@
-import MeetupList from "../components/meetups/MeetupList";
+import { MongoClient } from "mongodb";
 
-const MEETUP_LISTS = [
-  {
-    id: "m1",
-    title: "A First Meetup",
-    image:
-      "https://images.unsplash.com/photo-1682687980961-78fa83781450?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    address: "Some Address 5",
-    description: "This is a first meetup!",
-  },
-  {
-    id: "m2",
-    title: "A Second Meetup",
-    image:
-      "https://images.unsplash.com/photo-1682687980961-78fa83781450?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    address: "Some Address 6",
-    description: "This is a second meetup!",
-  },
-  {
-    id: "m3",
-    title: "A Third Meetup",
-    image:
-      "https://images.unsplash.com/photo-1682687980961-78fa83781450?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    address: "Some Address 7",
-    description: "This is a third meetup!",
-  },
-];
+import MeetupList from "../components/meetups/MeetupList";
 
 function HomePage({ meetups }) {
   return (
@@ -36,10 +11,26 @@ function HomePage({ meetups }) {
 }
 
 export async function getStaticProps() {
-  // Let's say we are fetching data from DB
+  const client = await MongoClient.connect(
+    "mongodb+srv://GiorgiBer:Gberiashvili1.@cluster0.r4blyqz.mongodb.net/"
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
   return {
     props: {
-      meetups: MEETUP_LISTS,
+      meetups: meetups.map((meetup) => {
+        return {
+          title: meetup.title,
+          image: meetup.image,
+          address: meetup.address,
+          id: meetup._id.toString(),
+        };
+      }),
     },
   };
 }
