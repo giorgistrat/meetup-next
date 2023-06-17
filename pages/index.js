@@ -27,12 +27,21 @@ const MEETUP_LISTS = [
   },
 ];
 
-function HomePage() {
+function HomePage({ meetups }) {
   return (
     <>
-      <MeetupList meetups={MEETUP_LISTS} />
+      <MeetupList meetups={meetups} />
     </>
   );
+}
+
+export async function getStaticProps() {
+  // Let's say we are fetching data from DB
+  return {
+    props: {
+      meetups: MEETUP_LISTS,
+    },
+  };
 }
 
 export default HomePage;
