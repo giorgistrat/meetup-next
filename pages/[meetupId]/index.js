@@ -10,10 +10,19 @@ const MEETUP_DETAILS_MOCK = {
   description: "The meetup description",
 };
 
-function MeetupDetails() {
-  const { query } = useRouter();
+function MeetupDetails({ meetupData }) {
+  // const { query } = useRouter();
 
-  return <MeetupDetail meetupDetails={MEETUP_DETAILS_MOCK} />;
+  return <MeetupDetail meetupDetails={meetupData} />;
+}
+
+export async function getStaticProps() {
+  // Let's say we are fetching data from DB
+  return {
+    props: {
+      meetupData: MEETUP_DETAILS_MOCK,
+    },
+  };
 }
 
 export default MeetupDetails;
